@@ -1,14 +1,16 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { IMqttMessage, MqttService } from 'ngx-mqtt';
 import { Chart } from 'chart.js';
+import { StatusCakeUptimeReportService } from '../api/status-cake-uptime-report.service';
+import { Status } from '../model/statusCakeReport-model';
 
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss']
 })
-export class Tab1Page implements OnInit, OnDestroy {
+export class Tab1Page implements AfterViewInit, OnDestroy {
   @ViewChild('lineCanvas', {static: false}) lineCanvas: ElementRef;
 
   private subscription: Subscription;
@@ -16,7 +18,8 @@ export class Tab1Page implements OnInit, OnDestroy {
   private lineChart: Chart;
   public messagePayload: string;
 
-  constructor(private mqttService: MqttService) {
+  constructor(private mqttService: MqttService,
+              private uptimeReport: StatusCakeUptimeReportService) {
     this.initMqtt();
   }
 
@@ -32,36 +35,77 @@ export class Tab1Page implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  ngOnInit(): void {
-    this.lineChart = new Chart(this.lineCanvas.nativeElement, {
-      type: 'line',
-      data: {
-        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-        datasets: [
-          {
-            label: 'My First dataset',
-            fill: false,
-            lineTension: 0.1,
-            backgroundColor: 'rgba(75,192,192,0.4)',
-            borderColor: 'rgba(75,192,192,1)',
-            borderCapStyle: 'butt',
-            borderDash: [],
-            borderDashOffset: 0.0,
-            borderJoinStyle: 'miter',
-            pointBorderColor: 'rgba(75,192,192,1)',
-            pointBackgroundColor: '#fff',
-            pointBorderWidth: 1,
-            pointHoverRadius: 5,
-            pointHoverBackgroundColor: 'rgba(75,192,192,1)',
-            pointHoverBorderColor: 'rgba(220,220,220,1)',
-            pointHoverBorderWidth: 2,
-            pointRadius: 1,
-            pointHitRadius: 10,
-            data: [65, 59, 80, 81, 56, 55, 40],
-            spanGaps: false
+  ngAfterViewInit() {
+    var statusStream: number[] = [];
+    var dataStream: string[] = [];
+
+    this.uptimeReport.getJSON().subscribe(data => {
+      data.forEach(el => {
+        dataStream.push(el.End);
+        dataStream.push(el.Start);
+        if (el.Status == Status.Down) {
+          statusStream.push(0);
+          statusStream.push(0);
+        }
+        if (el.Status == Status.Up) {
+          statusStream.push(1);
+          statusStream.push(1);
+        }
+      });
+
+      this.lineChart = new Chart(this.lineCanvas.nativeElement, {
+        type: 'line',
+        data: {
+          labels: dataStream.reverse(),
+          datasets: [
+            {
+              label: 'uptime monitoring',
+              fill: false,
+              lineTension: 0.1,
+              backgroundColor: 'rgba(0,0,0,0.2)',
+              borderColor: 'rgba(0,0,0,0.3)',
+              borderCapStyle: 'round',
+              borderDash: [],
+              borderDashOffset: 0.0,
+              borderJoinStyle: 'round',
+              pointBorderColor: 'rgba(0,0,0,0.3)',
+              pointBackgroundColor: 'rgba(0,0,0,0.2)',
+              pointBorderWidth: 2,
+              pointHoverRadius: 6,
+              pointHoverBackgroundColor: 'rgba(0,0,0,0.3)',
+              pointHoverBorderColor: 'rgba(0,0,0,0.2)',
+              pointHoverBorderWidth: 2,
+              pointRadius: 1,
+              pointHitRadius: 10,
+              data: statusStream.reverse(),
+              spanGaps: false
+            }
+          ]
+        },
+        options: {
+          scales: {
+            yAxes: [{
+              ticks: {
+                autoSkip: true,
+                maxTicksLimit: 2
+              },
+              gridLines: {
+                drawBorder: false,
+                display: true
+              }
+            }],
+            xAxes: [{
+              ticks: {
+                display: false
+              },
+              gridLines: {
+                drawBorder: false,
+                display: false
+              }
+            }]
           }
-        ]
-      }
+        }
+      });
     });
   }
 }
