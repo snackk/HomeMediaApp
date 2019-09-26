@@ -6,11 +6,11 @@ import { StatusCakeUptimeReportService } from '../api/status-cake-uptime-report.
 import { Status } from '../model/statusCakeReport-model';
 
 @Component({
-  selector: 'app-tab1',
-  templateUrl: 'tab1.page.html',
-  styleUrls: ['tab1.page.scss']
+  selector: 'app-tabs-analytics',
+  templateUrl: 'tabs-analytics.page.html',
+  styleUrls: ['tabs-analytics.page.scss']
 })
-export class Tab1Page implements AfterViewInit, OnDestroy {
+export class TabsAnalyticsPage implements AfterViewInit, OnDestroy {
   @ViewChild('lineCanvas', {static: false}) lineCanvas: ElementRef;
 
   private subscription: Subscription;
