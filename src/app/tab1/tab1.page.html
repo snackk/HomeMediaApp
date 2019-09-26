@@ -8,14 +8,13 @@
 
 <ion-content padding>
   <ion-card>
-<!--    <img class="card-image" src="../../assets/imgs/docker.png"/>-->
     <ion-card-header>
-      <ion-card-title>Emby Wake on Lan</ion-card-title>
+      <ion-card-title>Monitoring</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <p>{{messagePayload}}</p>
+      <canvas #lineCanvas></canvas>
+      <!--<p>{{messagePayload}}</p>-->
     </ion-card-content>
-    <button ion-button expand="block" (click)="pushWol()">Wake on Lan</button>
   </ion-card>
 </ion-content>
 
