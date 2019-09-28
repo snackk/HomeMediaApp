@@ -9,12 +9,9 @@ import { StatusCakeReport } from '../model/statusCakeReport-model';
 export class StatusCakeUptimeReportService {
 
   constructor(private http: HttpClient) {
-    this.getJSON().subscribe(data => {
-      console.log(data);
-    });
   }
 
-  public getJSON(): Observable<StatusCakeReport[]> {
+  public getReports(testId: number): Observable<StatusCakeReport[]> {
     return this.http.get<StatusCakeReport[]>('./assets/api/status-cake-uptime-report.json');
   }
 }

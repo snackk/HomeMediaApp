@@ -2,7 +2,7 @@
   <p style="text-align: center">
     <ion-fab style="margin-top: -75px; margin-left: -30px">
       <ion-fab-button (click)="pushWol()" color="danger">
-        <ion-icon name="power">
+        <ion-icon [name]="isPower ? 'power' : 'send'">
         </ion-icon>
       </ion-fab-button>
     </ion-fab>
@@ -11,13 +11,13 @@
 
 <ion-tabs>
   <ion-tab-bar slot="bottom">
-    <ion-tab-button tab="analytics">
+    <ion-tab-button tab="analytics" (click)="isPower=true">
       <ion-icon name="pulse"></ion-icon>
       <ion-label>Analytics</ion-label>
     </ion-tab-button>
 
-    <ion-tab-button tab="led">
-      <ion-icon name="color-palette"></ion-icon>
+    <ion-tab-button tab="led" (click)="isPower=false">
+      <ion-icon name="sunny"></ion-icon>
       <ion-label>Led</ion-label>
     </ion-tab-button>
   </ion-tab-bar>

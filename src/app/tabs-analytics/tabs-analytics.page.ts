@@ -11,11 +11,14 @@ import { Status } from '../model/statusCakeReport-model';
   styleUrls: ['tabs-analytics.page.scss']
 })
 export class TabsAnalyticsPage implements AfterViewInit, OnDestroy {
-  @ViewChild('lineCanvas', {static: false}) lineCanvas: ElementRef;
+  @ViewChild('mediaCanvas', {static: false}) mediaCanvas: ElementRef;
+  @ViewChild('ledCanvas', {static: false}) ledCanvas: ElementRef;
 
   private subscription: Subscription;
   private topicName = 'wol/push';
   private lineChart: Chart;
+  private mediaId: number = 5104031;
+  private ledId: number = 5104031;
   public messagePayload: string;
 
   constructor(private mqttService: MqttService,
@@ -23,9 +26,13 @@ export class TabsAnalyticsPage implements AfterViewInit, OnDestroy {
     this.initMqtt();
   }
 
-  public initMqtt(): void {
-    this.subscription = this.mqttService
-    .observe(this.topicName)
+  ngAfterViewInit() {
+    this.generateReports(this.mediaId, this.mediaCanvas);
+    this.generateReports(this.ledId, this.ledCanvas);
+  }
+
+  private initMqtt(): void {
+    this.subscription = this.mqttService.observe(this.topicName)
     .subscribe((message: IMqttMessage) => {
       this.messagePayload = message.payload.toString();
     });
@@ -35,11 +42,12 @@ export class TabsAnalyticsPage implements AfterViewInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  ngAfterViewInit() {
-    var statusStream: number[] = [];
-    var dataStream: string[] = [];
+  private generateReports(testId: number, canvas: ElementRef): void {
+    const statusStream: number[] = [];
+    const dataStream: string[] = [];
 
-    this.uptimeReport.getJSON().subscribe(data => {
+    this.uptimeReport.getReports(testId)
+    .subscribe(data => {
       data.forEach(el => {
         dataStream.push(el.End);
         dataStream.push(el.Start);
@@ -53,59 +61,63 @@ export class TabsAnalyticsPage implements AfterViewInit, OnDestroy {
         }
       });
 
-      this.lineChart = new Chart(this.lineCanvas.nativeElement, {
-        type: 'line',
-        data: {
-          labels: dataStream.reverse(),
-          datasets: [
-            {
-              label: 'uptime monitoring',
-              fill: false,
-              lineTension: 0.1,
-              backgroundColor: 'rgba(0,0,0,0.2)',
-              borderColor: 'rgba(0,0,0,0.3)',
-              borderCapStyle: 'round',
-              borderDash: [],
-              borderDashOffset: 0.0,
-              borderJoinStyle: 'round',
-              pointBorderColor: 'rgba(0,0,0,0.3)',
-              pointBackgroundColor: 'rgba(0,0,0,0.2)',
-              pointBorderWidth: 2,
-              pointHoverRadius: 6,
-              pointHoverBackgroundColor: 'rgba(0,0,0,0.3)',
-              pointHoverBorderColor: 'rgba(0,0,0,0.2)',
-              pointHoverBorderWidth: 2,
-              pointRadius: 1,
-              pointHitRadius: 10,
-              data: statusStream.reverse(),
-              spanGaps: false
-            }
-          ]
-        },
-        options: {
-          scales: {
-            yAxes: [{
-              ticks: {
-                autoSkip: true,
-                maxTicksLimit: 2
-              },
-              gridLines: {
-                drawBorder: false,
-                display: true
-              }
-            }],
-            xAxes: [{
-              ticks: {
-                display: false
-              },
-              gridLines: {
-                drawBorder: false,
-                display: false
-              }
-            }]
+      this.lineChart = this.buildChart(canvas, statusStream.reverse(), dataStream.reverse());
+    });
+  }
+
+  private buildChart(canvas: ElementRef, statusStream: number[], dataStream: string[]): Chart {
+    new Chart(canvas.nativeElement, {
+      type: 'line',
+      data: {
+        labels: dataStream,
+        datasets: [
+          {
+            label: 'uptime monitoring',
+            fill: false,
+            lineTension: 0.1,
+            backgroundColor: 'rgba(0,0,0,0.2)',
+            borderColor: 'rgba(0,0,0,0.3)',
+            borderCapStyle: 'round',
+            borderDash: [],
+            borderDashOffset: 0.0,
+            borderJoinStyle: 'round',
+            pointBorderColor: 'rgba(0,0,0,0.3)',
+            pointBackgroundColor: 'rgba(0,0,0,0.2)',
+            pointBorderWidth: 2,
+            pointHoverRadius: 6,
+            pointHoverBackgroundColor: 'rgba(0,0,0,0.3)',
+            pointHoverBorderColor: 'rgba(0,0,0,0.2)',
+            pointHoverBorderWidth: 2,
+            pointRadius: 1,
+            pointHitRadius: 10,
+            data: statusStream,
+            spanGaps: false
           }
+        ]
+      },
+      options: {
+        scales: {
+          yAxes: [{
+            ticks: {
+              autoSkip: true,
+              maxTicksLimit: 2
+            },
+            gridLines: {
+              drawBorder: false,
+              display: true
+            }
+          }],
+          xAxes: [{
+            ticks: {
+              display: false
+            },
+            gridLines: {
+              drawBorder: false,
+              display: false
+            }
+          }]
         }
-      });
+      }
     });
   }
 }
