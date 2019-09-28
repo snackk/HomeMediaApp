@@ -15,7 +15,9 @@ export class TabsPage {
   }
 
   public pushWol(): void {
-    this.unsafePublish(this.topicName, 'W');
+    if(this.isPower) {
+      this.unsafePublish(this.topicName, 'W');
+    }
   }
 
   private unsafePublish(topic: string, message: string): void {
