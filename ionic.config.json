@@ -1,5 +1,11 @@
 {
   "name": "SnackkMediaApp",
   "integrations": {},
-  "type": "angular"
+  "type": "angular",
+  "proxies": [
+    {
+      "path": "/api",
+      "proxyUrl": "https://app.statuscake.com/API/Tests/Periods"
+    }
+  ]
 }
