@@ -1,0 +1,11 @@
+{
+  "/api/*": {
+    "target": "http://app.statuscake.com/API/Tests/Periods",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/api": ""
+    }
+  }
+}
