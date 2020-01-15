@@ -8,8 +8,8 @@ import { MqttService } from 'ngx-mqtt';
 })
 export class TabsPage {
 
-  private topicName = 'wol/push';
-  private isPower: boolean = true;
+  public topicName = 'wol/push';
+  public isPower: boolean = true;
 
   constructor(private mqttService: MqttService) {
   }

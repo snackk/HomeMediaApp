@@ -12,13 +12,11 @@ import { Status } from '../model/statusCakeReport-model';
 })
 export class TabsAnalyticsPage implements AfterViewInit, OnDestroy {
   @ViewChild('mediaCanvas', {static: false}) mediaCanvas: ElementRef;
-  @ViewChild('ledCanvas', {static: false}) ledCanvas: ElementRef;
 
   private subscription: Subscription;
   private topicName = 'wol/push';
   private lineChart: Chart;
   private mediaId: number = 5104031;
-  private ledId: number = 5104031;
   public messagePayload: string;
 
   constructor(private mqttService: MqttService,
@@ -28,7 +26,6 @@ export class TabsAnalyticsPage implements AfterViewInit, OnDestroy {
 
   ngAfterViewInit() {
     this.generateReports(this.mediaId, this.mediaCanvas);
-    this.generateReports(this.ledId, this.ledCanvas);
   }
 
   private initMqtt(): void {

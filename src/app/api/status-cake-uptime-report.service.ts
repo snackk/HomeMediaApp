@@ -25,6 +25,6 @@ export class StatusCakeUptimeReportService {
     const myObject: any = { TestID: '5104031'};
 
     const options = { params: new HttpParams({ fromObject: myObject }), headers: headers };
-    return this.http.get<StatusCakeReport[]>('/api/', options);
+    return this.http.get<StatusCakeReport[]>('https://app.statuscake.com/API/Tests/Periods', options);
   }
 }
