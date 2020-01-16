@@ -1,4 +1,5 @@
-<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Ionic_Logo.svg/512px-Ionic_Logo.svg.png" alt="alt text">
+<img src="https://drive.google.com/uc?export=view&id=1hJXv7_9i9qIMqONKJJTReHHJbVONQYAr" alt="iphone1" style="float: left;" width=350>
+<img src="https://drive.google.com/uc?export=view&id=1D4g9TOWdymXaJI2hL6TTAWXecdreudhQ" alt="iphone2" style="float: left;" width=350>
 SnackkMediaApp is a Mobile App for home automation purposes.
 
 ## Overview
