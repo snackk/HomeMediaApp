@@ -16,8 +16,9 @@ export class TabsAnalyticsPage implements AfterViewInit, OnDestroy {
   private subscription: Subscription;
   private topicName = 'wol/push';
   private lineChart: Chart;
-  private mediaId: number = 5104031;
+  private mediaId: string = '5104031';
   public messagePayload: string;
+  public data: any;
 
   constructor(private mqttService: MqttService,
               private uptimeReport: StatusCakeUptimeReportService) {
@@ -39,13 +40,14 @@ export class TabsAnalyticsPage implements AfterViewInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  private generateReports(testId: number, canvas: ElementRef): void {
+  private generateReports(testId: string, canvas: ElementRef): void {
     const statusStream: number[] = [];
     const dataStream: string[] = [];
 
     this.uptimeReport.getReports(testId)
-    .subscribe(data => {
-      data.forEach(el => {
+    .then(response => {
+      this.data = JSON.parse(response.data);
+      this.data.forEach(el => {
         dataStream.push(el.End);
         dataStream.push(el.Start);
         if (el.Status == Status.Down) {
