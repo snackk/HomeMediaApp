@@ -46,17 +46,21 @@ export class TabsAnalyticsPage implements AfterViewInit, OnDestroy {
 
     this.uptimeReport.getReports(testId)
     .then(response => {
+      let max = 0;
       this.data = JSON.parse(response.data);
       this.data.forEach(el => {
-        dataStream.push(el.End);
-        dataStream.push(el.Start);
-        if (el.Status == Status.Down) {
-          statusStream.push(0);
-          statusStream.push(0);
-        }
-        if (el.Status == Status.Up) {
-          statusStream.push(1);
-          statusStream.push(1);
+        if(max < 10) {
+          dataStream.push(el.End);
+          dataStream.push(el.Start);
+          max += 1;
+          if (el.Status == Status.Down) {
+            statusStream.push(0);
+            statusStream.push(0);
+          }
+          if (el.Status == Status.Up) {
+            statusStream.push(1);
+            statusStream.push(1);
+          }
         }
       });
 
