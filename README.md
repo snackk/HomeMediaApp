@@ -1,5 +1,7 @@
-<img src="https://drive.google.com/uc?export=view&id=1hJXv7_9i9qIMqONKJJTReHHJbVONQYAr" alt="iphone1" style="float: left;" width=350>
-<img src="https://drive.google.com/uc?export=view&id=1D4g9TOWdymXaJI2hL6TTAWXecdreudhQ" alt="iphone2" style="float: left;" width=350>
+## SnackkMediaApp
+
+<img src="https://user-images.githubusercontent.com/9936714/73213043-674ffc00-4147-11ea-8396-6e9a67f1aa90.png" alt="iphone1" style="float: left;" width=450>
+
 SnackkMediaApp is a Mobile App for home automation purposes.
 
 ## Overview
