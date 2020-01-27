@@ -5,7 +5,14 @@ Home Automation app to control IoT devices over MQTT.
 
 ## Overview
 
-App has two major functionalities, remotely turn on my personal computer and for the time being control the desk lights.
+App works as a home automation dashboard, enabling the control of IoT devices based on esp8266 hardware. 
+The firmware runing on these IoT devices can be found here [esp8266-home-automation](https://github.com/snackk/esp8266-home-automation).
+
+### Analytics
+Reads data from status cake API and displays a graphic of them. Pressing the power button will trigger a power switch on a computer, by acting as an MQTT broker that emits **wake up** to a given topic, 'wol/push'.
+
+### Lights
+Pressing the send button will trigger lights to lighten up matcvhing the chosen color, by acting as an MQTT broker that emits **light** events to a given topic, 'lights/push'.
 
 ## <a name="prerequisites"></a> Prerequisites
 
