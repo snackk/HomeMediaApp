@@ -1,6 +1,7 @@
 ## SnackkMediaApp
-
-<img src="https://user-images.githubusercontent.com/9936714/73213043-674ffc00-4147-11ea-8396-6e9a67f1aa90.png" alt="iphone app" style="float: left;" width=450>
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/9936714/73213043-674ffc00-4147-11ea-8396-6e9a67f1aa90.png" alt="iphone app" width=600>
+</p>
 Home Automation app to control IoT devices over MQTT.
 
 ## Overview
