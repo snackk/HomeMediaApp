@@ -27,6 +27,8 @@ First, install the [prerequisites](#prerequisites):
 ```sh
 $ npm install -g ionic
 $ npm install -g cordova
+$ ionic cordova platform add browser
+$ ionic cordova platform add ios
 ```
 
 Now, there are several ways to run a ionic app:
