@@ -9,9 +9,9 @@ export class StatusCakeUptimeReportService {
   constructor(private http: HTTP) {
   }
 
-  public getReports(testid: string) {
+  public getReports(mediaId: string) {
     return this.http.get(
-        'https://app.statuscake.com/Workfloor/Orion/uptime/clusterInflux.php', { type: 'uptime_perf', testid: testid, span: 'Day' },
+        'https://app.statuscake.com/Workfloor/Orion/uptime/clusterInflux.php', { type: 'uptime_perf', TestID: mediaId, span: 'Day' },
         { API: '3VCi0OJreHfTC0y6pwkj', Username: 'santosmatrixsapopt' });
   }
 }

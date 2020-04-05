@@ -16,7 +16,7 @@ export class TabsAnalyticsPage implements AfterViewInit, OnDestroy {
   private subscription: Subscription;
   private topicName = 'wol/push';
   private lineChart: Chart;
-  private mediaId: string = '5104031';
+  private mediaId = '5104031';
   public messagePayload: string;
   public data: any;
 
@@ -40,11 +40,12 @@ export class TabsAnalyticsPage implements AfterViewInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  private generateReports(testId: string, canvas: ElementRef): void {
+  private generateReports(mediaId: string, canvas: ElementRef): void {
     const statusStream: number[] = [];
     const dataStream: Date[] = [];
 
-    this.uptimeReport.getReports(testId).then(p => {
+    this.uptimeReport.getReports(mediaId)
+        .then(p => {
       const dat: StatusCakeReport[] = p.data[0].data;
       for (let i = 25; i > 0; i--) {
         let index = dat.length - i;
