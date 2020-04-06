@@ -11,3 +11,8 @@ export const mqttConfig: IMqttServiceOptions = {
   username: 'user',
   password: 'password'
 };
+
+export const statusCakeConfig = {
+  api: 'apiKey',
+  username: 'username'
+};
