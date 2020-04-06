@@ -1,9 +1,9 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { IMqttMessage, MqttService } from 'ngx-mqtt';
-import { Chart } from 'chart.js';
-import { StatusCakeUptimeReportService } from '../api/status-cake-uptime-report.service';
-import { Status } from '../model/statusCakeReport-model';
+import {AfterViewInit, Component, ElementRef, OnDestroy, ViewChild} from '@angular/core';
+import {Subscription} from 'rxjs';
+import {IMqttMessage, MqttService} from 'ngx-mqtt';
+import {Chart} from 'chart.js';
+import {StatusCakeUptimeReportService} from '../api/status-cake-uptime-report.service';
+import {StatusCakeReport} from '../model/statusCake-model';
 
 @Component({
   selector: 'app-tabs-analytics',
@@ -16,7 +16,7 @@ export class TabsAnalyticsPage implements AfterViewInit, OnDestroy {
   private subscription: Subscription;
   private topicName = 'wol/push';
   private lineChart: Chart;
-  private mediaId: string = '5104031';
+  private mediaId = '5104031';
   public messagePayload: string;
   public data: any;
 
@@ -40,35 +40,23 @@ export class TabsAnalyticsPage implements AfterViewInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  private generateReports(testId: string, canvas: ElementRef): void {
+  private generateReports(mediaId: string, canvas: ElementRef): void {
     const statusStream: number[] = [];
-    const dataStream: string[] = [];
+    const dataStream: Date[] = [];
 
-    this.uptimeReport.getReports(testId)
-    .then(response => {
-      let max = 0;
-      this.data = JSON.parse(response.data);
-      this.data.forEach(el => {
-        if(max < 10) {
-          dataStream.push(el.End);
-          dataStream.push(el.Start);
-          max += 1;
-          if (el.Status == Status.Down) {
-            statusStream.push(0);
-            statusStream.push(0);
+    this.uptimeReport.getReports(mediaId)
+        .then(p => {
+          const dat: StatusCakeReport[] = JSON.parse(p.data).data[0].data;
+          for (let i = 25; i > 0; i--) {
+            let index = dat.length - i;
+            dataStream.push(new Date(dat[index].x));
+            statusStream.push(dat[index].y);
           }
-          if (el.Status == Status.Up) {
-            statusStream.push(1);
-            statusStream.push(1);
-          }
-        }
-      });
-
-      this.lineChart = this.buildChart(canvas, statusStream.reverse(), dataStream.reverse());
+          this.lineChart = this.buildChart(canvas, statusStream, dataStream);
     });
   }
 
-  private buildChart(canvas: ElementRef, statusStream: number[], dataStream: string[]): Chart {
+  private buildChart(canvas: ElementRef, statusStream: number[], dataStream: Date[]): Chart {
     new Chart(canvas.nativeElement, {
       type: 'line',
       data: {
@@ -103,7 +91,8 @@ export class TabsAnalyticsPage implements AfterViewInit, OnDestroy {
           yAxes: [{
             ticks: {
               autoSkip: true,
-              maxTicksLimit: 2
+              maxTicksLimit: 2,
+              min: 0
             },
             gridLines: {
               drawBorder: false,

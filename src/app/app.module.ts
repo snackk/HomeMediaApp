@@ -11,14 +11,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { IMqttServiceOptions, MqttModule } from 'ngx-mqtt';
 import { HttpClientModule } from '@angular/common/http';
+import { mqttConfig } from '../environments/environment';
 
-export const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
-  hostname: 'farmer.cloudmqtt.com',
-  port: 38345,
-  protocol: 'wss',
-  username: 'unchrdkg',
-  password: 'rZczaE1gEkuI'
-};
+export const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = mqttConfig;
 
 @NgModule({
   declarations: [AppComponent],
