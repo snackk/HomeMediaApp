@@ -19,16 +19,15 @@ Pressing the send button will trigger lights to lighten up matcvhing the chosen 
 
 * npm
 * ionic-cli
-* cordova
+* cocoapods
 
 ## Installation
 
 First, install the [prerequisites](#prerequisites):
 ```sh
 $ npm install -g ionic
-$ npm install -g cordova
-$ ionic cordova platform add browser
-$ ionic cordova platform add ios
+$ brew install cocoapods
+$ npx cap sync
 ```
 
 Now, there are several ways to run a ionic app:
@@ -38,17 +37,12 @@ Now, there are several ways to run a ionic app:
 $ ionic serve
 ```
 
-### cordova-cli
-```sh
-$ ionic cordova run browser
-```
-
 ## Deploy
 
 To deploy the app for android/ios we run the following:
 
 ```sh
-$ ionic cordova build ios --prod
+$ ionic capacitor run ios --prod
 ```
 
 ## Problems
