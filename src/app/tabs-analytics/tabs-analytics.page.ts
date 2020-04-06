@@ -46,15 +46,13 @@ export class TabsAnalyticsPage implements AfterViewInit, OnDestroy {
 
     this.uptimeReport.getReports(mediaId)
         .then(p => {
-      const dat: StatusCakeReport[] = p.data[0].data;
-      for (let i = 25; i > 0; i--) {
-        let index = dat.length - i;
-        console.log(new Date(dat[index].x));
-        console.log(dat[index].y);
-        dataStream.push(new Date(dat[index].x));
-        statusStream.push(dat[index].y);
-      }
-      this.lineChart = this.buildChart(canvas, statusStream, dataStream);
+          const dat: StatusCakeReport[] = JSON.parse(p.data).data[0].data;
+          for (let i = 25; i > 0; i--) {
+            let index = dat.length - i;
+            dataStream.push(new Date(dat[index].x));
+            statusStream.push(dat[index].y);
+          }
+          this.lineChart = this.buildChart(canvas, statusStream, dataStream);
     });
   }
 

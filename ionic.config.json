@@ -1,7 +1,8 @@
 {
   "name": "SnackkMediaApp",
   "integrations": {
-    "cordova": {}
+    "cordova": {},
+    "capacitor": {}
   },
   "type": "angular"
 }
