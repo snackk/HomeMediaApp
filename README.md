@@ -1,4 +1,4 @@
-## SnackkMediaApp
+## HomeMediaApp
 <p align="center">
   <img src="https://user-images.githubusercontent.com/9936714/73213043-674ffc00-4147-11ea-8396-6e9a67f1aa90.png" alt="iphone app" width=600>
 </p>
